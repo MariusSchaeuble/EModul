@@ -134,10 +134,29 @@ savefig('alu1F')
 show()
 
 #berechne emodulus
+m = 8.25/1000
+sigma_m = 0.01/1000
+L = 0.3
+sigma_L = 0.01
+
+b = 0.5/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+beta1 = pi*0.59686/(L - 0.03)#einspannung 3cm
+sigma_beta1 = gauss("pi*0.59686/(L - 0.03)")
+
+omega = reso*2*pi
+sigma_omega = 0.01*omega
+
+EAlu1 = omega**2/beta1**4*m/L*12/a/b**3
+sigma_EAlu1 = gauss("omega**2/beta1**4*m/L*12/a/b**3")
+
 
 
 def decay(x, A, beta, c):
-    return A*exp(-beta*x) + c
+    return A*exp(-beta*(x)) + c
 
 
 s = x*25#in mm dann
@@ -158,6 +177,278 @@ betaAlu1 = optimizedParameters1[1]
 sigma_betaAlu1 = diag(s)[1]
 
 
+
+from importieren import Walu2
+Walu2 = Walu2[np.argmax(Walu2[:, 1]):, :]
+
+x = Walu2[:, 1]
+t = Walu2[:, 0]
+Fs = 500
+
+L = len(x)
+
+#t = x[:, 0]
+
+Y = np.fft.fft(x)
+
+
+f = Fs/L*np.arange(0, L/2)
+P2 = abs(Y)/L*2
+P1 = P2[0:L//2 + 1]
+
+
+plot(f, P1, label='Alu2', linewidth=5)
+reso = f[np.argmax(P1[10:]) + 10]
+plt.axvline(x=reso, color='r', linestyle='--', label='Resonanz')
+plt.xlim(0, 30)
+plt.ylim(0, 0.26)
+xlabel('Frequenz in Hz', fontsize=20)
+ylabel('Amplitude in V', fontsize=20)
+title('Alu2, Frequenzdomäne', fontsize=20)
+legend(fontsize=13, loc='upper right')
+grid()
+plt.tight_layout()
+savefig('alu2F')
+show()
+
+#berechne emodulus
+m = 32.17/1000
+sigma_m = 0.01/1000
+L = 0.3
+sigma_L = 0.01
+
+b = 2/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+beta1 = pi*0.59686/(L - 0.03)#einspannung 3cm
+sigma_beta1 = gauss("pi*0.59686/(L - 0.03)")
+
+omega = reso*2*pi
+sigma_omega = 0.01*omega
+
+EAlu2 = omega**2/beta1**4*m/L*12/a/b**3
+sigma_EAlu2 = gauss("omega**2/beta1**4*m/L*12/a/b**3")
+
+
+
+def decay(x, A, beta, c):
+    return A*exp(-beta*x) + c
+
+
+s = x*25#in mm dann
+plot(t, s, label='Alu2', linewidth=2)
+peaks, _ = scipy.signal.find_peaks(s)
+optimizedParameters1, s = opt.curve_fit(decay, t[peaks], s[peaks])
+plot(t[peaks], decay(t[peaks], *optimizedParameters1), label="fit1")
+xlabel('Zeit in s', fontsize=20)
+ylabel('Position in mm', fontsize=20)
+title('Alu2, Zeitdomäne', fontsize=20)
+legend(fontsize=13, loc='upper right')
+grid()
+plt.tight_layout()
+savefig('alu2T')
+show()
+
+betaAlu2 = optimizedParameters1[1]
+sigma_betaAlu2 = diag(s)[1]
+
+
+from importieren import WCu
+WCu = WCu[np.argmax(WCu[:, 1]):, :]
+
+x = WCu[:, 1]
+t = WCu[:, 0]
+Fs = 100
+
+L = len(x)
+
+#t = x[:, 0]
+
+Y = np.fft.fft(x)
+
+
+f = Fs/L*np.arange(0, L//2 + 1)
+P2 = abs(Y)/L*2
+P1 = P2[0:L//2 + 1]
+
+
+plot(f, P1, label='Kupfer', linewidth=5)
+reso = f[np.argmax(P1[10:]) + 10]
+plt.axvline(x=reso, color='r', linestyle='--', label='Resonanz')
+plt.xlim(0, 10)
+plt.ylim(0, 0.3)
+xlabel('Frequenz in Hz', fontsize=20)
+ylabel('Amplitude in V', fontsize=20)
+title('Kupfer, Frequenzdomäne', fontsize=20)
+legend(fontsize=13, loc='upper left')
+grid()
+plt.tight_layout()
+savefig('CuF')
+show()
+
+#berechne emodulus
+m = 26.81/1000
+sigma_m = 0.01/1000
+L = 0.3
+sigma_L = 0.01
+
+b = 0.5/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+beta1 = pi*0.59686/(L - 0.03)#einspannung 3cm
+sigma_beta1 = gauss("pi*0.59686/(L - 0.03)")
+
+omega = reso*2*pi
+sigma_omega = 0.01*omega
+
+ECu = omega**2/beta1**4*m/L*12/a/b**3
+sigma_ECu = gauss("omega**2/beta1**4*m/L*12/a/b**3")
+
+
+
+def decay(x, A, beta, c):
+    return A*exp(-beta*x) + c
+
+
+s = x*25#in mm dann
+plot(t, s, label='Kupfer', linewidth=2)
+peaks, _ = scipy.signal.find_peaks(s)
+optimizedParameters1, s = opt.curve_fit(decay, t[peaks], s[peaks])
+plot(t[peaks], decay(t[peaks], *optimizedParameters1), label="fit1")
+xlabel('Zeit in s', fontsize=20)
+ylabel('Position in mm', fontsize=20)
+title('Kupfer, Zeitdomäne', fontsize=20)
+legend(fontsize=13, loc='upper right')
+grid()
+plt.tight_layout()
+savefig('CuT')
+show()
+
+betaCu = optimizedParameters1[1]
+sigma_betaCu = diag(s)[1]
+
+
+from importieren import WFe1
+WFe1 = WFe1[np.argmax(WFe1[:, 1]):, :]
+
+x = WFe1[:, 1]
+t = WFe1[:, 0]
+Fs = 100
+
+L = len(x)
+
+#t = x[:, 0]
+
+Y = np.fft.fft(x)
+
+
+f = Fs/L*np.arange(0, L//2 + 1)
+P2 = abs(Y)/L*2
+P1 = P2[0:L//2 + 1]
+
+
+plot(f, P1, label='Stahl1', linewidth=5)
+reso = f[np.argmax(P1[10:]) + 10]
+plt.axvline(x=reso, color='r', linestyle='--', label='Resonanz')
+plt.xlim(0, 60)
+plt.ylim(0, 0.4)
+xlabel('Frequenz in Hz', fontsize=20)
+ylabel('Amplitude in V', fontsize=20)
+title('Stahl1, Frequenzdomäne', fontsize=20)
+legend(fontsize=13, loc='upper right')
+grid()
+plt.tight_layout()
+savefig('Fe1F')
+show()
+
+#berechne emodulus
+m = 26.77/1000
+sigma_m = 0.01/1000
+L = 0.3
+sigma_L = 0.01
+
+b = 0.7/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+beta1 = pi*0.59686/(L - 0.03)#einspannung 3cm
+sigma_beta1 = gauss("pi*0.59686/(L - 0.03)")
+
+omega = reso*2*pi
+sigma_omega = 0.01*omega
+
+EFe1 = omega**2/beta1**4*m/L*12/a/b**3
+sigma_EFe1 = gauss("omega**2/beta1**4*m/L*12/a/b**3")
+
+
+
+def decay(x, A, beta, c):
+    return A*exp(-beta*x) + c
+
+
+s = x*25#in mm dann
+plot(t, s, label='Stahl1', linewidth=2)
+peaks, _ = scipy.signal.find_peaks(s)
+optimizedParameters1, s = opt.curve_fit(decay, t[peaks], s[peaks])
+plot(t[peaks], decay(t[peaks], *optimizedParameters1), label="fit1")
+xlabel('Zeit in s', fontsize=20)
+ylabel('Position in mm', fontsize=20)
+title('Stahl1, Zeitdomäne', fontsize=20)
+legend(fontsize=13, loc='upper right')
+grid()
+plt.tight_layout()
+savefig('Fe1T')
+show()
+
+betaFe1 = optimizedParameters1[1]
+sigma_betaFe1 = diag(s)[1]
+
+
+#statische auswertung
+def linear(x, a, b):
+    return a*x + b
+
+
+from importieren import WSAlu2
+
+P = toArray(WSAlu2)
+start = P[0]
+step = 1#mm
+omega = linspaceM(start, len(P), step)
+
+
+
+plot(omega, P, label='Alu2', marker='*', markersize=10)
+optimizedParameters1, s = opt.curve_fit(linear, omega, P)
+plot(omega, linear(omega, *optimizedParameters1), label="fit1")
+xlabel('Auslenkung in mm', fontsize=20)
+ylabel('Kraft in N', fontsize=20)
+title('Aluminium2', fontsize=20)
+legend(fontsize=13, loc='lower right')
+grid()
+plt.tight_layout()
+savefig('Salu2')
+show()
+
+m = 8.25/1000
+sigma_m = 0.01/1000
+L = 0.25
+sigma_L = 0.01
+
+b = 0.5/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+steig = optimizedParameters1[0]/1000
+sigma_steig = diag(s)[0]/1000
+
+ESAlu2 = L**3/48*steig*12/a/b**3
 
 
 
