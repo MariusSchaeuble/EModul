@@ -1,0 +1,2 @@
+Länge 30cm
+Übersetzungsverhältniss aus Datenblatt U/s=10V/250mm
