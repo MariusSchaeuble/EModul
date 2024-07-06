@@ -435,8 +435,7 @@ plt.tight_layout()
 savefig('Salu2')
 show()
 
-m = 8.25/1000
-sigma_m = 0.01/1000
+
 L = 0.25
 sigma_L = 0.01
 
@@ -445,10 +444,162 @@ sigma_b = 0.05/1000
 a = 2.01/100
 sigma_a = 0.05/1000
 
-steig = optimizedParameters1[0]/1000
-sigma_steig = diag(s)[0]/1000
+steig = optimizedParameters1[0]*1000
+sigma_steig = diag(s)[0]*1000
 
 ESAlu2 = L**3/48*steig*12/a/b**3
+sigma_ESAlu2 = gauss("L**3/48*steig*12/a/b**3")
+
+
+
+from importieren import WSAlu4
+
+P = toArray(WSAlu4)
+start = P[0]
+step = 0.25#mm
+omega = linspaceM(start, len(P), step)
+
+
+
+plot(omega, P, label='Alu4', marker='*', markersize=10)
+optimizedParameters1, s = opt.curve_fit(linear, omega, P)
+plot(omega, linear(omega, *optimizedParameters1), label="fit1")
+xlabel('Auslenkung in mm', fontsize=20)
+ylabel('Kraft in N', fontsize=20)
+title('Aluminium4', fontsize=20)
+legend(fontsize=13, loc='lower right')
+grid()
+plt.tight_layout()
+savefig('SAlu4')
+show()
+
+
+L = 0.25
+sigma_L = 0.01
+
+b = 2/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+steig = optimizedParameters1[0]*1000
+sigma_steig = diag(s)[0]*1000
+
+ESAlu4 = L**3/48*steig*12/a/b**3
+sigma_ESAlu4 = gauss("L**3/48*steig*12/a/b**3")
+
+
+from importieren import WSCu
+
+P = toArray(WSCu)
+start = P[0]
+step = 1#mm
+omega = linspaceM(start, len(P), step)
+
+
+
+plot(omega, P, label='Cu', marker='*', markersize=10)
+optimizedParameters1, s = opt.curve_fit(linear, omega, P)
+plot(omega, linear(omega, *optimizedParameters1), label="fit1")
+xlabel('Auslenkung in mm', fontsize=20)
+ylabel('Kraft in N', fontsize=20)
+title('Kupfer', fontsize=20)
+legend(fontsize=13, loc='lower right')
+grid()
+plt.tight_layout()
+savefig('SCu')
+show()
+
+
+L = 0.25
+sigma_L = 0.01
+
+b = 0.5/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+steig = optimizedParameters1[0]*1000
+sigma_steig = diag(s)[0]*1000
+
+ESCu = L**3/48*steig*12/a/b**3
+sigma_ESCu = gauss("L**3/48*steig*12/a/b**3")
+
+
+from importieren import WSFe1
+
+P = toArray(WSFe1)
+start = P[0]
+step = 0.5#mm
+omega = linspaceM(start, len(P), step)
+
+
+
+plot(omega, P, label='Fe1', marker='*', markersize=10)
+optimizedParameters1, s = opt.curve_fit(linear, omega, P)
+plot(omega, linear(omega, *optimizedParameters1), label="fit1")
+xlabel('Auslenkung in mm', fontsize=20)
+ylabel('Kraft in N', fontsize=20)
+title('Stahl1', fontsize=20)
+legend(fontsize=13, loc='lower right')
+grid()
+plt.tight_layout()
+savefig('SFe1')
+show()
+
+
+L = 0.25
+sigma_L = 0.01
+
+b = 0.7/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+steig = optimizedParameters1[0]*1000
+sigma_steig = diag(s)[0]*1000
+
+ESFe1 = L**3/48*steig*12/a/b**3
+sigma_ESFe1 = gauss("L**3/48*steig*12/a/b**3")
+
+
+from importieren import WSFe2
+
+P = toArray(WSFe2)
+start = P[0]
+step = 0.5#mm
+omega = linspaceM(start, len(P), step)
+
+
+
+plot(omega, P, label='Fe2', marker='*', markersize=10)
+optimizedParameters1, s = opt.curve_fit(linear, omega, P)
+plot(omega, linear(omega, *optimizedParameters1), label="fit1")
+xlabel('Auslenkung in mm', fontsize=20)
+ylabel('Kraft in N', fontsize=20)
+title('Stahl2', fontsize=20)
+legend(fontsize=13, loc='lower right')
+grid()
+plt.tight_layout()
+savefig('SFe2')
+show()
+
+
+L = 0.25
+sigma_L = 0.01
+
+b = 0.5/1000
+sigma_b = 0.05/1000
+a = 2.01/100
+sigma_a = 0.05/1000
+
+steig = optimizedParameters1[0]*1000
+sigma_steig = diag(s)[0]*1000
+
+ESFe2 = L**3/48*steig*12/a/b**3
+sigma_ESFe2 = gauss("L**3/48*steig*12/a/b**3")
+
+
 
 
 
