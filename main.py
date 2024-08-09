@@ -192,6 +192,7 @@ L = len(x)
 Y = np.fft.fft(x)
 
 
+
 f = Fs/L*np.arange(0, L/2)
 P2 = abs(Y)/L*2
 P1 = P2[0:L//2 + 1]
