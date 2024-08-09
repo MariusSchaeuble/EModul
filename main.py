@@ -450,6 +450,10 @@ sigma_steig = diag(s)[0]*1000
 ESAlu2 = L**3/48*steig*12/a/b**3
 sigma_ESAlu2 = gauss("L**3/48*steig*12/a/b**3")
 
+print('alu2')
+RCP(steig, sigma_steig, '\\frac{N}{m}')
+print('')
+
 
 
 from importieren import WSAlu4
@@ -488,6 +492,10 @@ sigma_steig = diag(s)[0]*1000
 ESAlu4 = L**3/48*steig*12/a/b**3
 sigma_ESAlu4 = gauss("L**3/48*steig*12/a/b**3")
 
+print('alu4')
+RCP(steig, sigma_steig, '\\frac{N}{m}')
+print('')
+
 
 from importieren import WSCu
 
@@ -524,6 +532,10 @@ sigma_steig = diag(s)[0]*1000
 
 ESCu = L**3/48*steig*12/a/b**3
 sigma_ESCu = gauss("L**3/48*steig*12/a/b**3")
+
+print('cu')
+RCP(steig, sigma_steig, '\\frac{N}{m}')
+print('')
 
 
 from importieren import WSFe1
@@ -562,11 +574,15 @@ sigma_steig = diag(s)[0]*1000
 ESFe1 = L**3/48*steig*12/a/b**3
 sigma_ESFe1 = gauss("L**3/48*steig*12/a/b**3")
 
+print('st1')
+RCP(steig, sigma_steig, '\\frac{N}{m}')
+print('')
+
 
 from importieren import WSFe2
 
 P = toArray(WSFe2)
-start = P[0]
+start = 0
 step = 0.5#mm
 omega = linspaceM(start, len(P), step)
 
@@ -598,6 +614,10 @@ sigma_steig = diag(s)[0]*1000
 
 ESFe2 = L**3/48*steig*12/a/b**3
 sigma_ESFe2 = gauss("L**3/48*steig*12/a/b**3")
+
+print('st2')
+RCP(steig, sigma_steig, '\\frac{N}{m}')
+print('')
 
 
 
